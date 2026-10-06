@@ -1,0 +1,119 @@
+<div class="wl-root">
+  <!-- 1. Hero: static, so the first paint is the real content. -->
+  <section class="wl-hero" aria-labelledby="wl-hero-title">
+    <div class="wl-hero__inner">
+      <p class="wl-kicker">{{ 'WELCOME.HERO.KICKER' | translate }}</p>
+      <h1 id="wl-hero-title" class="wl-hero__title">{{ 'WELCOME.HERO.TITLE' | translate }}</h1>
+      <p class="wl-hero__lede">{{ 'WELCOME.HERO.LEDE' | translate }}</p>
+      <div class="wl-hero__actions">
+        <button type="button" class="button button--primary wl-cta-button" (click)="startTour()">
+          {{ 'WELCOME.HERO.TOUR' | translate }}
+          <i appIcon="arrow-down"></i>
+        </button>
+        <a
+          class="button button--ghost wl-cta-button"
+          [href]="profile.platformRepo"
+          target="_blank"
+          rel="noopener"
+        >
+          <i appIcon="github"></i>
+          {{ 'WELCOME.HERO.GITHUB' | translate }}
+        </a>
+        <a class="button button--ghost wl-cta-button" [routerLink]="i18n.link('cv', lang())">
+          <i appIcon="arrow-left"></i>
+          {{ 'WELCOME.HERO.BACK' | translate }}
+        </a>
+      </div>
+    </div>
+    <span class="wl-hero__cue" [class.is-gone]="scrolled()" aria-hidden="true">
+      <i appIcon="arrow-down"></i>
+    </span>
+  </section>
+
+  <!-- Each scene is its own deferred chunk. Prerendered, its HTML is all
+       there and it hydrates as it scrolls into view. -->
+  <div id="wl-tour" class="wl-anchor" tabindex="-1"></div>
+  @defer (on viewport; hydrate on viewport) {
+    <app-welcome-federation-scene />
+  } @placeholder {
+    <div class="wl-placeholder"></div>
+  }
+
+  @defer (on viewport; hydrate on viewport) {
+    <app-welcome-request-scene />
+  } @placeholder {
+    <div class="wl-placeholder"></div>
+  }
+
+  @defer (on viewport; hydrate on viewport) {
+    <app-welcome-events-scene />
+  } @placeholder {
+    <div class="wl-placeholder"></div>
+  }
+
+  @defer (on viewport; hydrate on viewport) {
+    <app-welcome-products-scene />
+  } @placeholder {
+    <div class="wl-placeholder"></div>
+  }
+
+  @defer (on viewport; hydrate on viewport) {
+    <app-welcome-observability-scene />
+  } @placeholder {
+    <div class="wl-placeholder"></div>
+  }
+
+  @defer (on viewport; hydrate on viewport) {
+    <app-welcome-stack-scene />
+  } @placeholder {
+    <div class="wl-placeholder"></div>
+  }
+
+  <!-- The repositories. -->
+  <section class="wl-repos" aria-labelledby="wl-repos-title">
+    <div class="wl-reveal">
+      <p class="wl-kicker">{{ 'WELCOME.REPOS.KICKER' | translate }}</p>
+      <h2 id="wl-repos-title" class="wl-scene__title">{{ 'WELCOME.REPOS.TITLE' | translate }}</h2>
+    </div>
+    <ul class="wl-repos__list wl-reveal">
+      @for (repo of repos(); track repo.name) {
+        <li class="wl-repo">
+          <a
+            class="wl-repo__name"
+            [href]="profile.platformRepo + '/tree/main/' + repo.name"
+            target="_blank"
+            rel="noopener"
+            >{{ repo.name }}</a
+          >
+          <span class="wl-repo__stack">{{ repo.stack }}</span>
+          <span class="wl-repo__role">{{ repo.role }}</span>
+        </li>
+      }
+    </ul>
+  </section>
+
+  <!-- Call to action. -->
+  <section class="wl-cta wl-reveal" aria-labelledby="wl-cta-title">
+    <h2 id="wl-cta-title" class="wl-scene__title">{{ 'WELCOME.CTA.TITLE' | translate }}</h2>
+    <p class="wl-scene__body">{{ 'WELCOME.CTA.BODY' | translate }}</p>
+    <div class="wl-hero__actions">
+      <a
+        class="button button--primary wl-cta-button"
+        [href]="profile.platformRepo"
+        target="_blank"
+        rel="noopener"
+      >
+        <i appIcon="github"></i>
+        {{ 'WELCOME.CTA.GITHUB' | translate }}
+      </a>
+      <a class="button button--ghost wl-cta-button" [href]="'mailto:' + profile.email">
+        <i appIcon="mail"></i>
+        {{ 'WELCOME.CTA.EMAIL' | translate }}
+      </a>
+      <a class="button button--ghost wl-cta-button" [routerLink]="i18n.link('cv', lang())">
+        <i appIcon="arrow-left"></i>
+        {{ 'WELCOME.CTA.BACK' | translate }}
+      </a>
+    </div>
+  </section>
+</div>

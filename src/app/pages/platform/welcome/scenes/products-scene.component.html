@@ -1,0 +1,75 @@
+<section class="wl-products" aria-labelledby="wl-products-title">
+  <div class="wl-products__sticky">
+    <div class="wl-products__head wl-reveal">
+      <p class="wl-kicker">{{ 'WELCOME.PRODUCTS.KICKER' | translate }}</p>
+      <h2 id="wl-products-title" class="wl-scene__title">
+        {{ 'WELCOME.PRODUCTS.TITLE' | translate }}
+      </h2>
+    </div>
+    <div class="wl-products__track" data-anim="products-track">
+      <article class="wl-panel" data-anim="panel-chatbot">
+        <div class="wl-panel__demo wl-chat" aria-hidden="true">
+          <p class="wl-chat__bubble is-user">
+            {{ 'WELCOME.PRODUCTS.CHAT_ASK' | translate }}
+          </p>
+          <p class="wl-chat__bubble" data-anim="chat-answer">
+            <span data-anim="chat-full">{{ 'WELCOME.PRODUCTS.CHAT_ANSWER' | translate }}</span>
+            <span class="wl-chat__typed" data-anim="chat-typed"></span>
+          </p>
+        </div>
+        <h3>{{ 'WELCOME.FED.CHATBOT' | translate }}</h3>
+        <p>{{ 'WELCOME.PRODUCTS.CHATBOT_BODY' | translate }}</p>
+      </article>
+
+      <article class="wl-panel" data-anim="panel-messenger">
+        <div class="wl-panel__demo wl-mesh" aria-hidden="true">
+          <div class="wl-mesh__field">
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+              @for (link of meshLinks; track $index) {
+                <line
+                  data-anim="mesh-link"
+                  [attr.x1]="link[0][0]"
+                  [attr.y1]="link[0][1]"
+                  [attr.x2]="link[1][0]"
+                  [attr.y2]="link[1][1]"
+                />
+              }
+            </svg>
+            @for (peer of meshPeers; track $index) {
+              <span
+                class="wl-mesh__peer"
+                data-anim="mesh-peer"
+                [style.left.%]="peer[0]"
+                [style.top.%]="peer[1]"
+                >{{ peerNames[$index] }}</span
+              >
+            }
+          </div>
+          <span class="wl-mesh__badge" data-anim="mesh-badge">
+            <i appIcon="video"></i>
+            {{ 'WELCOME.PRODUCTS.MESH_BADGE' | translate }}
+          </span>
+        </div>
+        <h3>{{ 'WELCOME.FED.MESSENGER' | translate }}</h3>
+        <p>{{ 'WELCOME.PRODUCTS.MESSENGER_BODY' | translate }}</p>
+      </article>
+
+      <article class="wl-panel" data-anim="panel-events">
+        <div class="wl-panel__demo wl-log" aria-hidden="true">
+          <p class="wl-log__head">
+            <span class="wl-log__live"></span>
+            {{ 'WELCOME.PRODUCTS.LOG_LIVE' | translate }}
+          </p>
+          @for (row of logRows; track row.type) {
+            <p class="wl-log__row" data-anim="log-row">
+              <code>{{ row.type }}</code>
+              <span>{{ row.source }}</span>
+            </p>
+          }
+        </div>
+        <h3>{{ 'WELCOME.FED.EVENT_STORE' | translate }}</h3>
+        <p>{{ 'WELCOME.PRODUCTS.EVENTS_BODY' | translate }}</p>
+      </article>
+    </div>
+  </div>
+</section>

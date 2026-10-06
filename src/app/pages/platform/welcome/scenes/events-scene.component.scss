@@ -1,0 +1,480 @@
+// Scene 4: event-driven architecture through one real choreography. Without
+// Motion the steps are a list beside the finished diagram; with it the
+// section pins and scrolling steps through the flow (welcome-animations.ts
+// toggles `.is-on`, `.is-current` and `--wl-pos`).
+
+@use '../welcome' as wl;
+
+@include wl.scene-copy;
+@include wl.scene-layout;
+
+$ink-line: color-mix(in srgb, var(--datha-primary-500) 35%, transparent);
+$mono: ui-monospace, Menlo, monospace;
+
+.wl-events__intro {
+  padding-bottom: 0;
+}
+
+.wl-events__sticky {
+  @include wl.scene-frame;
+  display: grid;
+  gap: 2rem;
+  align-content: center;
+}
+
+@media (min-width: 56rem) {
+  .wl-events__sticky {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    align-items: center;
+    gap: 3rem;
+  }
+}
+
+/* ---- Steps ------------------------------------------------------------- */
+
+.wl-events__walk {
+  display: grid;
+  gap: 1rem;
+}
+
+// Names the example, so the steps read as one case of the pattern above.
+.wl-events__example {
+  margin: 0;
+  color: var(--page-ink);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.wl-events__steps {
+  display: grid;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wl-events__step {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.85rem;
+  align-items: start;
+  transition: opacity 0.3s ease;
+
+  p {
+    margin: 0;
+    color: var(--page-copy);
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
+  code {
+    display: inline-block;
+    margin-top: 0.35rem;
+    color: var(--datha-primary-600);
+    font-family: $mono;
+    font-size: 0.75rem;
+    overflow-wrap: anywhere;
+  }
+}
+
+:host-context(.dark) .wl-events__step code {
+  color: var(--datha-primary-300);
+}
+
+.wl-events__step-no {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  background: var(--datha-primary-500);
+  color: var(--datha-surface-0);
+  font-size: 0.8rem;
+  font-weight: 700;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+/* ---- Stage ------------------------------------------------------------- */
+
+.wl-events__stage {
+  @include wl.glass;
+  display: grid;
+  gap: 0.85rem;
+  padding: 1.25rem;
+}
+
+// Label beside content; every content column has the same width, so the
+// tape's slots and the cursors' tracks line up.
+.wl-events__row {
+  display: grid;
+  grid-template-columns: 10rem minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.wl-events__label {
+  color: var(--page-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.wl-events__durable {
+  display: grid;
+  gap: 0.1rem;
+  letter-spacing: 0;
+  text-transform: none;
+
+  code {
+    color: var(--page-ink);
+    font-family: $mono;
+    font-size: 0.72rem;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+  }
+
+  small {
+    font-family: $mono;
+    font-size: 0.65rem;
+    font-weight: 400;
+    overflow-wrap: anywhere;
+  }
+}
+
+.wl-events__publishers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.wl-events__publisher {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--datha-glass-edge);
+  border-radius: 999px;
+  background: var(--datha-glass-bg-surface);
+  font-family: $mono;
+  font-size: 0.75rem;
+
+  i {
+    color: var(--datha-primary-500);
+  }
+}
+
+.wl-events__reply {
+  padding: 0.05rem 0.4rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--datha-green-500, #22c55e) 18%, transparent);
+  color: light-dark(var(--datha-green-700, #15803d), var(--datha-green-300, #86efac));
+  font-size: 0.68rem;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.wl-events__pulse {
+  display: none;
+}
+
+// The stream: an append-only log. No gap between slots, so a slot's centre is
+// exactly (i + 0.5) / n of the width, which is where the cursors point.
+.wl-events__tape {
+  display: grid;
+  grid-template-columns: repeat(var(--wl-slots), minmax(0, 1fr));
+  margin: 0;
+  padding: 0.35rem 0;
+  border-block: 1px dashed $ink-line;
+  list-style: none;
+}
+
+.wl-events__event {
+  display: grid;
+  gap: 0.15rem;
+  margin: 0 0.2rem;
+  padding: 0.45rem 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--datha-primary-500) 35%, transparent);
+  border-radius: 0.6rem;
+  background: var(--datha-glass-bg-surface);
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+
+  &.is-file {
+    border-color: color-mix(in srgb, #0546ff 35%, transparent);
+  }
+}
+
+.wl-events__seq {
+  color: var(--page-muted);
+  font-family: $mono;
+  font-size: 0.62rem;
+}
+
+.wl-events__type {
+  color: var(--page-ink);
+  font-family: $mono;
+  font-size: 0.66rem;
+  line-height: 1.3;
+  // Only for a word longer than its slot; the dots are the usual breaks.
+  overflow-wrap: anywhere;
+}
+
+.wl-events__corr {
+  color: var(--page-muted);
+  font-family: $mono;
+  font-size: 0.58rem;
+}
+
+// A durable's position: the cursor sits under the last event it has read.
+.wl-events__track {
+  position: relative;
+  height: 1.6rem;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 50% 0 auto;
+    height: 1px;
+    background: $ink-line;
+  }
+}
+
+.wl-events__cursor,
+.wl-events__retry {
+  position: absolute;
+  top: 50%;
+  left: calc((var(--wl-pos) + 0.5) / var(--wl-slots) * 100%);
+  translate: -50% -50%;
+  transition: left 0.5s cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+
+.wl-events__cursor {
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 50%;
+  background: var(--datha-primary-500);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--datha-primary-500) 22%, transparent);
+}
+
+// Only during the walkthrough: in the finished diagram the retry belongs to
+// an event the cursor has already moved past.
+.wl-events__retry {
+  display: none;
+  margin-left: 1.6rem;
+  padding: 0.05rem 0.35rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--datha-red-500) 16%, transparent);
+  color: light-dark(var(--datha-red-600, #dc2626), var(--datha-red-300, #fca5a5));
+  font-family: $mono;
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.wl-events__dlq-row {
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--datha-glass-edge);
+}
+
+.wl-events__dlq-entry {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid color-mix(in srgb, var(--datha-red-500) 40%, transparent);
+  border-radius: 0.6rem;
+  background: color-mix(in srgb, var(--datha-red-500) 7%, var(--datha-glass-bg-surface));
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
+
+  i {
+    color: var(--datha-red-500);
+  }
+
+  code {
+    font-family: $mono;
+    font-size: 0.68rem;
+    overflow-wrap: anywhere;
+  }
+}
+
+.wl-events__replay {
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: var(--datha-primary-500);
+  color: var(--datha-surface-0);
+  font-size: 0.68rem;
+  font-weight: 600;
+  transition: opacity 0.35s ease;
+}
+
+// A phone: everything must fit one screen while pinned. Labels sit above
+// their row so the tape gets the full width; a durable's name and filter share
+// one line, the filter truncating rather than wrapping.
+@media (max-width: wl.$narrow) {
+  .wl-events__stage {
+    gap: 0.55rem;
+    padding: 0.75rem;
+  }
+
+  .wl-events__row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.25rem;
+  }
+
+  .wl-events__label {
+    font-size: 0.6rem;
+    letter-spacing: 0.04em;
+  }
+
+  .wl-events__publisher {
+    gap: 0.3rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.66rem;
+  }
+
+  .wl-events__event {
+    margin: 0 0.1rem;
+    padding: 0.3rem;
+  }
+
+  .wl-events__type {
+    font-size: 0.6rem;
+  }
+
+  .wl-events__corr {
+    display: none;
+  }
+
+  .wl-events__durable {
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+    min-width: 0;
+
+    code {
+      flex-shrink: 0;
+      font-size: 0.64rem;
+    }
+
+    small {
+      overflow: hidden;
+      font-size: 0.58rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  .wl-events__track {
+    height: 1.15rem;
+  }
+
+  .wl-events__cursor {
+    width: 0.7rem;
+    height: 0.7rem;
+  }
+
+  .wl-events__dlq-row {
+    padding-top: 0.45rem;
+  }
+
+  .wl-events__dlq-entry code {
+    font-size: 0.6rem;
+  }
+}
+
+/* ---- Walkthrough, once Motion has loaded (see _welcome.scss) ------------ */
+
+:host(.is-animated) {
+  // Pinned: the section is tall, its content sticks for the whole walk.
+  .wl-events__scrolly {
+    height: 360vh;
+  }
+
+  .wl-events__sticky {
+    position: sticky;
+    top: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding-block: 1.5rem;
+  }
+
+  .wl-events__retry {
+    display: block;
+  }
+
+  [data-from]:not(.is-on) {
+    opacity: 0;
+    transform: translateY(0.4rem) scale(0.96);
+  }
+
+  .wl-events__step {
+    opacity: 0.35;
+
+    &.is-done {
+      opacity: 0.6;
+    }
+
+    &.is-current {
+      opacity: 1;
+
+      .wl-events__step-no {
+        background: #0546ff;
+        transform: scale(1.12);
+      }
+    }
+  }
+
+  .wl-events__pulse.is-on {
+    position: absolute;
+    inset: -1px;
+    display: block;
+    border-radius: inherit;
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--datha-primary-500) 50%, transparent);
+    animation: wl-ping 1.2s ease-out infinite;
+  }
+
+  // A phone pins only the current step above the diagram.
+  @media (max-width: 55.99rem) {
+    .wl-events__sticky {
+      align-content: start;
+      gap: 1rem;
+      padding-block: 1rem;
+    }
+
+    .wl-events__step:not(.is-current) {
+      display: none;
+    }
+
+    .wl-events__steps:not(:has(.is-current)) .wl-events__step:first-child {
+      display: grid;
+    }
+  }
+}
+
+// The last step: one correlation id ties every event together.
+:host(.is-animated[data-step='5']) {
+  .wl-events__event {
+    box-shadow: 0 0 0 2px color-mix(in srgb, #0546ff 30%, transparent);
+  }
+
+  .wl-events__corr {
+    color: #0546ff;
+    font-weight: 700;
+  }
+}
+
+@keyframes wl-ping {
+  to {
+    box-shadow: 0 0 0 10px transparent;
+  }
+}

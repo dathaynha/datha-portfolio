@@ -1,0 +1,104 @@
+<section class="wl-events" aria-labelledby="wl-events-title">
+  <div class="wl-scene wl-events__intro">
+    <div class="wl-scene__copy wl-reveal">
+      <p class="wl-kicker">{{ 'WELCOME.EVENTS.KICKER' | translate }}</p>
+      <h2 id="wl-events-title" class="wl-scene__title">
+        {{ 'WELCOME.EVENTS.TITLE' | translate }}
+      </h2>
+      <p class="wl-scene__body">{{ 'WELCOME.EVENTS.BODY' | translate }}</p>
+    </div>
+  </div>
+
+  <!-- Pinned once Motion runs: scrolling steps through the flow. Without it,
+       the steps read as a list beside the finished diagram. -->
+  <div class="wl-events__scrolly" data-anim="events-scrolly">
+    <div class="wl-events__sticky">
+      <div class="wl-events__walk">
+        <p class="wl-events__example">
+          {{ 'WELCOME.EVENTS.EXAMPLE' | translate }}
+        </p>
+        <ol class="wl-events__steps">
+          @for (step of steps; track step.textKey; let i = $index) {
+            <li class="wl-events__step" data-anim="event-step">
+              <span class="wl-events__step-no">{{ i + 1 }}</span>
+              <div>
+                <p>{{ step.textKey | translate }}</p>
+                @if (step.code) {
+                  <code>{{ wrapAtDots(step.code) }}</code>
+                }
+              </div>
+            </li>
+          }
+        </ol>
+      </div>
+
+      <div class="wl-events__stage" aria-hidden="true">
+        <div class="wl-events__row">
+          <span class="wl-events__label">{{ 'WELCOME.EVENTS.PUBLISHERS' | translate }}</span>
+          <div class="wl-events__publishers">
+            <span class="wl-events__publisher" data-publisher="chatbot">
+              <span class="wl-events__pulse" data-from="1" data-until="1"></span>
+              <i appIcon="microchip-ai"></i> chatbot-service
+              <em class="wl-events__reply" data-from="1">204</em>
+            </span>
+            <span class="wl-events__publisher" data-publisher="file">
+              <span class="wl-events__pulse" data-from="3" data-until="3"></span>
+              <i appIcon="file"></i> file-service
+            </span>
+          </div>
+        </div>
+
+        <div class="wl-events__row">
+          <span class="wl-events__label">EVENTS</span>
+          <ol class="wl-events__tape" [style.--wl-slots]="stream.length">
+            @for (event of stream; track event.seq) {
+              <li
+                class="wl-events__event"
+                [class.is-file]="event.publisher === 'file'"
+                [attr.data-from]="event.from"
+              >
+                <span class="wl-events__seq">#{{ event.seq }}</span>
+                <span class="wl-events__type">{{ wrapAtDots(event.type) }}</span>
+                <span class="wl-events__corr">corr 7f3a…</span>
+              </li>
+            }
+          </ol>
+        </div>
+
+        @for (durable of durables; track durable.name) {
+          <div class="wl-events__row">
+            <span class="wl-events__label wl-events__durable">
+              <code>{{ durable.name }}</code>
+              <small>{{ wrapAtDots(durable.filter) }}</small>
+            </span>
+            <div
+              class="wl-events__track"
+              data-anim="event-durable"
+              [attr.data-positions]="durable.positions.join(',')"
+              [style.--wl-slots]="stream.length"
+              [style.--wl-pos]="durable.positions[durable.positions.length - 1]"
+            >
+              <span class="wl-events__cursor"></span>
+              @if (durable.name === 'notification-service-events') {
+                <span class="wl-events__retry" data-from="4" data-until="4">×3</span>
+              }
+            </div>
+          </div>
+        }
+
+        <div class="wl-events__row wl-events__dlq-row">
+          <span class="wl-events__label">DLQ</span>
+          <div class="wl-events__dlq">
+            <span class="wl-events__dlq-entry" data-from="4">
+              <i appIcon="exclamation-triangle"></i>
+              <code>notification_service.projection</code>
+              <span class="wl-events__replay" data-from="5">{{
+                'WELCOME.EVENTS.REPLAY' | translate
+              }}</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

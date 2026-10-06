@@ -1,0 +1,85 @@
+// Headline counts and a drawn latency line.
+
+@use '../welcome' as wl;
+
+@include wl.scene-copy;
+@include wl.scene-layout;
+
+.wl-observe__grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 56rem) {
+  .wl-observe__grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    align-items: stretch;
+  }
+}
+
+.wl-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 0;
+}
+
+.wl-stat {
+  @include wl.glass;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: 0.25rem;
+  padding: 1.25rem;
+
+  dt {
+    color: var(--page-copy);
+    font-size: 0.85rem;
+  }
+
+  dd {
+    margin: 0;
+    font-size: clamp(2.25rem, 5vw, 3rem);
+    font-weight: 700;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.03em;
+  }
+}
+
+.wl-chart {
+  @include wl.glass;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 1.25rem;
+
+  figcaption {
+    color: var(--page-copy);
+    font-size: 0.85rem;
+  }
+
+  svg {
+    flex: 1;
+    width: 100%;
+    min-height: 9rem;
+    margin-top: 1rem;
+  }
+
+  path {
+    fill: none;
+    stroke: var(--datha-primary-500);
+    // No non-scaling-stroke: the draw uses pathLength, which that would break.
+    // The viewBox is close to the box's shape, so the stroke barely distorts.
+    stroke-width: 1;
+    stroke-linejoin: round;
+  }
+}
+
+// Initial states, only once Motion has loaded (see _welcome.scss).
+:host(.is-animated) {
+  .wl-chart path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+}

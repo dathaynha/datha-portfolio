@@ -1,0 +1,77 @@
+<main class="page">
+  <div class="toolbar no-print">
+    <app-format-switch lang="en" current="resume" />
+    <button type="button" class="button button--primary" (click)="print()">
+      {{ ui.savePdf }}
+    </button>
+  </div>
+
+  <article class="sheet glass">
+    <header class="head">
+      <h1 class="name">{{ name }}</h1>
+      <p class="headline">{{ resume.headline }}</p>
+      <ul class="contact">
+        @for (link of links; track link.href) {
+          <li>
+            <a [href]="link.href" target="_blank" rel="noopener">
+              <i [appIcon]="link.icon"></i>
+              {{ link.label }}
+            </a>
+          </li>
+        }
+      </ul>
+    </header>
+
+    <section aria-labelledby="r-summary">
+      <h2 id="r-summary">{{ resume.sections.summary }}</h2>
+      <p>{{ resume.summary }}</p>
+    </section>
+
+    <section aria-labelledby="r-skills">
+      <h2 id="r-skills">{{ resume.sections.skills }}</h2>
+      <dl class="skills">
+        @for (group of resume.skills; track group.name) {
+          <dt>{{ group.name }}</dt>
+          <dd>{{ group.items }}</dd>
+        }
+      </dl>
+    </section>
+
+    <section aria-labelledby="r-experience">
+      <h2 id="r-experience">{{ resume.sections.experience }}</h2>
+      @for (role of roles; track role.id) {
+        <div class="role">
+          <div class="role__line">
+            <h3>{{ role.title }}</h3>
+            <span class="role__period">{{ role.period }}</span>
+          </div>
+          <p class="role__company">{{ role.company }}</p>
+          <ul>
+            @for (bullet of role.bullets; track $index) {
+              <li>{{ bullet }}</li>
+            }
+          </ul>
+        </div>
+      }
+    </section>
+
+    <section aria-labelledby="r-project">
+      <h2 id="r-project">{{ resume.sections.project }}</h2>
+      <div class="role">
+        <div class="role__line">
+          <h3>{{ resume.project.name }}</h3>
+          <a class="role__period" [href]="profile.platformRepo" target="_blank" rel="noopener">{{
+            projectLink
+          }}</a>
+        </div>
+        <p>{{ resume.project.description }}</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="r-education">
+      <h2 id="r-education">{{ resume.sections.education }}</h2>
+      <p>{{ resume.education }}</p>
+      <p class="muted">{{ resume.languages }}</p>
+    </section>
+  </article>
+</main>

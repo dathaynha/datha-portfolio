@@ -1,0 +1,46 @@
+// The technologies, grouped, arriving in a wave.
+
+@use '../welcome' as wl;
+
+@include wl.scene-copy;
+@include wl.scene-layout;
+
+.wl-stack__groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 2rem;
+
+  h3 {
+    margin: 0 0 0.75rem;
+    color: var(--page-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+
+.wl-chip {
+  padding: 0.4rem 0.85rem;
+  border: 1px solid var(--datha-glass-edge);
+  border-radius: 999px;
+  background: var(--datha-glass-bg-surface);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+// Initial states, only once Motion has loaded (see _welcome.scss).
+:host(.is-animated) {
+  .wl-chip {
+    opacity: 0;
+  }
+}

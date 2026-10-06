@@ -1,0 +1,20 @@
+<section class="wl-scene wl-stack" aria-labelledby="wl-stack-title">
+  <div class="wl-scene__copy wl-reveal">
+    <p class="wl-kicker">{{ 'WELCOME.STACK.KICKER' | translate }}</p>
+    <h2 id="wl-stack-title" class="wl-scene__title">
+      {{ 'WELCOME.STACK.TITLE' | translate }}
+    </h2>
+  </div>
+  <div class="wl-stack__groups" data-anim="stack">
+    @for (group of stackGroups; track group.key) {
+      <div class="wl-stack__group">
+        <h3>{{ group.key | translate }}</h3>
+        <ul>
+          @for (item of group.items; track item.name) {
+            <li class="wl-chip" data-anim="chip">{{ item.name }}</li>
+          }
+        </ul>
+      </div>
+    }
+  </div>
+</section>

@@ -1,0 +1,31 @@
+<section class="wl-scene wl-observe" aria-labelledby="wl-observe-title">
+  <div class="wl-scene__copy wl-reveal">
+    <p class="wl-kicker">{{ 'WELCOME.OBSERVE.KICKER' | translate }}</p>
+    <h2 id="wl-observe-title" class="wl-scene__title">
+      {{ 'WELCOME.OBSERVE.TITLE' | translate }}
+    </h2>
+    <p class="wl-scene__body">{{ 'WELCOME.OBSERVE.BODY' | translate }}</p>
+  </div>
+  <div class="wl-observe__grid">
+    <dl class="wl-stats">
+      @for (stat of stats; track stat.labelKey) {
+        <div class="wl-stat">
+          <dt>{{ stat.labelKey | translate }}</dt>
+          <dd data-anim="stat-value" [attr.data-value]="stat.value">
+            {{ stat.value }}
+          </dd>
+        </div>
+      }
+    </dl>
+    <figure class="wl-chart" aria-hidden="true">
+      <figcaption>{{ 'WELCOME.OBSERVE.CHART' | translate }}</figcaption>
+      <svg viewBox="0 0 200 60" preserveAspectRatio="none">
+        <path
+          data-anim="chart-line"
+          pathLength="1"
+          d="M0 44 L14 40 L28 42 L42 30 L56 34 L70 22 L84 28 L98 18 L112 24 L126 14 L140 20 L154 12 L168 16 L182 8 L200 12"
+        />
+      </svg>
+    </figure>
+  </div>
+</section>

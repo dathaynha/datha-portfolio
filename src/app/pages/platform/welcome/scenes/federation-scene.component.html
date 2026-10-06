@@ -1,0 +1,29 @@
+<section class="wl-scene wl-fed" aria-labelledby="wl-fed-title">
+  <div class="wl-scene__copy wl-reveal">
+    <p class="wl-kicker">{{ 'WELCOME.FED.KICKER' | translate }}</p>
+    <h2 id="wl-fed-title" class="wl-scene__title">
+      {{ 'WELCOME.FED.TITLE' | translate }}
+    </h2>
+    <p class="wl-scene__body">{{ 'WELCOME.FED.BODY' | translate }}</p>
+  </div>
+  <div class="wl-frame" data-anim="fed-stage" aria-hidden="true">
+    <div class="wl-frame__bar">
+      <span></span><span></span><span></span>
+      <em>shell · :4000</em>
+    </div>
+    <div class="wl-frame__body">
+      <div class="wl-frame__rail"></div>
+      <div class="wl-frame__slots">
+        @for (remote of remotes; track remote.id; let i = $index) {
+          <div class="wl-frame__slot">
+            <div class="wl-tile" data-anim="fed-tile" [attr.data-i]="i">
+              <i [appIcon]="remote.icon"></i>
+              <strong>{{ remote.labelKey | translate }}</strong>
+              <span>{{ remote.captionKey | translate }}</span>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>

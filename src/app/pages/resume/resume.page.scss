@@ -1,0 +1,203 @@
+:host {
+  display: block;
+}
+
+.page {
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: 32px 16px 24px;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.sheet {
+  padding: 40px 44px;
+  color: var(--page-copy);
+  font-size: 14.5px;
+  line-height: 1.55;
+
+  @media (max-width: 40rem) {
+    padding: 24px 18px;
+  }
+}
+
+.head {
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.name {
+  color: var(--page-ink);
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.headline {
+  margin-top: 2px;
+  color: var(--page-kicker);
+  font-weight: 600;
+}
+
+.contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  justify-content: center;
+  margin-top: 8px;
+  padding: 0;
+  list-style: none;
+  font-size: 13.5px;
+
+  a {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    word-break: break-all;
+  }
+}
+
+section + section {
+  margin-top: 18px;
+}
+
+h2 {
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid color-mix(in srgb, var(--datha-primary) 45%, transparent);
+  color: var(--page-ink);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.skills {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 3px 14px;
+  margin: 0;
+
+  dt {
+    color: var(--page-ink);
+    font-weight: 600;
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  @media (max-width: 30rem) {
+    grid-template-columns: minmax(0, 1fr);
+
+    dd {
+      margin-bottom: 6px;
+    }
+  }
+}
+
+.role + .role {
+  margin-top: 14px;
+}
+
+.role__line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 12px;
+  align-items: baseline;
+  justify-content: space-between;
+
+  h3 {
+    color: var(--page-ink);
+    font-size: 15px;
+    font-weight: 700;
+  }
+}
+
+.role__period {
+  color: var(--page-muted);
+  font-size: 13.5px;
+  white-space: nowrap;
+}
+
+.role__company {
+  color: var(--page-kicker);
+  font-weight: 600;
+}
+
+.role ul {
+  margin-top: 4px;
+  padding-left: 18px;
+
+  li + li {
+    margin-top: 2px;
+  }
+
+  li::marker {
+    color: var(--datha-primary);
+  }
+}
+
+.muted {
+  color: var(--page-muted);
+}
+
+// US Letter, half-inch margins: what a US recruiter's printer and ATS expect.
+@media print {
+  @page {
+    size: letter;
+    margin: 0.5in;
+  }
+
+  .page {
+    max-width: none;
+    padding: 0;
+  }
+
+  .sheet {
+    padding: 0;
+    font-size: 10pt;
+    line-height: 1.4;
+  }
+
+  .name {
+    font-size: 20pt;
+  }
+
+  .contact {
+    font-size: 9.5pt;
+
+    i {
+      display: none;
+    }
+  }
+
+  h2 {
+    font-size: 9.5pt;
+    border-bottom-color: #a78bfa;
+  }
+
+  .role__line h3 {
+    font-size: 10.5pt;
+  }
+
+  .role__period {
+    font-size: 9.5pt;
+  }
+
+  // Roles stay whole; a section may break, or Experience jumps a page.
+  .role {
+    break-inside: avoid-page;
+  }
+
+  h2 {
+    break-after: avoid;
+  }
+}

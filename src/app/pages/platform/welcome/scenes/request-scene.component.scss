@@ -1,0 +1,338 @@
+// Scene 3: the microservices map. Without Motion it is the finished map:
+// browser, gateway, and every service with its route, stack and datastore.
+// With Motion (welcome-animations.ts) one request at a time travels in, the
+// gateway's checks flash, and the owning service lights up.
+
+@use '../welcome' as wl;
+
+@include wl.scene-copy;
+@include wl.scene-layout;
+@include wl.node-icon;
+
+$mono: ui-monospace, Menlo, monospace;
+$wire: color-mix(in srgb, var(--datha-primary-500) 40%, transparent);
+
+// Browser → gateway → services: a column on a phone, one line across on a
+// wide screen, every part centred on the same axis so the wires meet.
+.wl-ms__map {
+  display: grid;
+  align-items: center;
+}
+
+@media (min-width: 56rem) {
+  .wl-ms__map {
+    grid-template-columns:
+      minmax(0, 14.5rem) 2.5rem minmax(0, 13.5rem) 2.5rem
+      minmax(0, 1fr);
+  }
+}
+
+.wl-ms__card {
+  @include wl.glass;
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+.wl-ms__card-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: center;
+
+  strong {
+    display: block;
+    font-size: 0.95rem;
+  }
+}
+
+.wl-ms__caption {
+  display: block;
+  color: var(--page-copy);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.wl-ms__requests {
+  min-width: 0;
+}
+
+.wl-ms__request {
+  display: block;
+  padding: 0.45rem 0.6rem;
+  border-radius: 0.6rem;
+  background: color-mix(in srgb, var(--datha-primary-500) 9%, transparent);
+  color: var(--page-ink);
+  font-family: $mono;
+  font-size: 0.72rem;
+  // Only for a segment longer than the line; slashes are the usual breaks.
+  overflow-wrap: anywhere;
+
+  b {
+    color: var(--datha-primary-600);
+  }
+
+  // The finished map shows one example request.
+  &:not(:first-child) {
+    display: none;
+  }
+}
+
+:host-context(.dark) .wl-ms__request b {
+  color: var(--datha-primary-300);
+}
+
+.wl-ms__gateway {
+  border-color: color-mix(in srgb, var(--datha-primary-500) 50%, transparent);
+}
+
+.wl-ms__checks {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--page-copy);
+  font-size: 0.8rem;
+
+  i {
+    margin-inline-end: 0.35rem;
+    color: light-dark(var(--datha-green-600, #16a34a), var(--datha-green-300, #86efac));
+    font-size: 0.75rem;
+  }
+}
+
+// The wires: browser → gateway (the one way in) and gateway → services.
+// Vertical between stacked parts on a phone, horizontal on a wide screen.
+.wl-ms__wire,
+.wl-ms__bus {
+  position: relative;
+  justify-self: center;
+  width: 2px;
+  height: 2.25rem;
+  background: $wire;
+}
+
+@media (min-width: 56rem) {
+  .wl-ms__wire,
+  .wl-ms__bus {
+    justify-self: stretch;
+    width: auto;
+    height: 2px;
+  }
+}
+
+.wl-ms__packet {
+  display: none;
+}
+
+.wl-ms__services {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// Seven services: the odd one out takes the whole last row.
+.wl-ms__service:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+.wl-ms__service {
+  @include wl.glass;
+  display: grid;
+  gap: 0.25rem;
+  align-content: start;
+  padding: 0.75rem 0.85rem;
+  border-radius: 0.9rem;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+}
+
+.wl-ms__name {
+  color: var(--page-ink);
+  font-family: $mono;
+  font-size: 0.8rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.wl-ms__prefix {
+  color: var(--datha-primary-600);
+  font-family: $mono;
+  font-size: 0.7rem;
+  overflow-wrap: anywhere;
+}
+
+:host-context(.dark) .wl-ms__prefix {
+  color: var(--datha-primary-300);
+}
+
+.wl-ms__stack {
+  color: var(--page-copy);
+  font-size: 0.75rem;
+}
+
+.wl-ms__data {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.2rem;
+}
+
+.wl-ms__store {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.12rem 0.45rem;
+  border: 1px solid var(--datha-glass-edge);
+  border-radius: 999px;
+  color: var(--page-muted);
+  font-size: 0.68rem;
+  transition:
+    color 0.3s ease,
+    border-color 0.3s ease;
+
+  i {
+    font-size: 0.62rem;
+  }
+}
+
+// A phone: a narrower service card, stack and datastores still on show.
+@media (max-width: wl.$narrow) {
+  .wl-ms__service {
+    padding: 0.6rem 0.65rem;
+  }
+
+  .wl-ms__name {
+    font-size: 0.72rem;
+  }
+}
+
+/* ---- One request at a time, once Motion has loaded --------------------- */
+
+:host(.is-animated) {
+  .wl-ms__request {
+    display: none;
+
+    &.is-active {
+      display: block;
+      animation: wl-type-in 0.3s ease both;
+    }
+  }
+
+  .wl-ms__packet {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    display: block;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+    background: #0546ff;
+    box-shadow: 0 0 10px #0546ff;
+    opacity: 0;
+    translate: -50% -50%;
+  }
+
+  .is-sending .wl-ms__packet {
+    animation: wl-packet-down 0.7s ease-in both;
+  }
+
+  @media (min-width: 56rem) {
+    .wl-ms__packet {
+      top: 50%;
+      left: 0;
+    }
+
+    .is-sending .wl-ms__packet {
+      animation-name: wl-packet-across;
+    }
+  }
+
+  .is-sending .wl-ms__checks li {
+    animation: wl-check 0.5s ease both;
+
+    &:nth-child(1) {
+      animation-delay: 0.6s;
+    }
+
+    &:nth-child(2) {
+      animation-delay: 0.8s;
+    }
+  }
+
+  .is-sending .wl-ms__bus {
+    animation: wl-flash 0.6s ease 1s both;
+  }
+
+  // The owning service lights up once the gateway has routed the request.
+  .wl-ms__service.is-active {
+    border-color: color-mix(in srgb, #0546ff 55%, transparent);
+    box-shadow:
+      0 0 0 3px color-mix(in srgb, #0546ff 18%, transparent),
+      var(--page-shadow);
+    transform: translateY(-2px);
+    transition-delay: 1.1s;
+
+    .wl-ms__store {
+      border-color: color-mix(in srgb, #0546ff 45%, transparent);
+      color: var(--page-ink);
+      transition-delay: 1.3s;
+    }
+  }
+}
+
+@keyframes wl-type-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes wl-packet-down {
+  from {
+    top: 0;
+    opacity: 1;
+  }
+  to {
+    top: 100%;
+    opacity: 1;
+  }
+}
+
+@keyframes wl-packet-across {
+  from {
+    left: 0;
+    opacity: 1;
+  }
+  to {
+    left: 100%;
+    opacity: 1;
+  }
+}
+
+@keyframes wl-check {
+  0% {
+    opacity: 0.35;
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(3px);
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes wl-flash {
+  50% {
+    background: #0546ff;
+    box-shadow: 0 0 10px #0546ff;
+  }
+}

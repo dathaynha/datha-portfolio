@@ -1,0 +1,381 @@
+:host {
+  display: block;
+}
+
+.page {
+  container: page / inline-size;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 56px 16px 24px;
+}
+
+.hero {
+  display: grid;
+  gap: 14px;
+
+  app-format-switch {
+    margin-bottom: 18px;
+  }
+
+  justify-items: start;
+  max-width: 50rem;
+  margin-bottom: 48px;
+}
+
+.name {
+  padding-bottom: 0.08em;
+  font-size: clamp(2.75rem, 1.6rem + 5vw, 5rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.lede {
+  color: var(--page-copy);
+  font-size: clamp(1rem, 0.9rem + 0.5vw, 1.15rem);
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+
+  .button--primary {
+    word-break: break-all;
+  }
+}
+
+// One column (phone, print): the columns dissolve so every section can be
+// ordered on its own, putting skills right after the summary as a CV reads.
+// Two columns (desktop): skills sit beside the experience from the top.
+.layout {
+  display: grid;
+  gap: 20px;
+}
+
+.main,
+.sidebar {
+  display: contents;
+}
+
+.panel--summary {
+  order: 1;
+}
+
+.panel--skills {
+  order: 2;
+}
+
+.panel--experience {
+  order: 3;
+}
+
+.platform-card {
+  order: 4;
+}
+
+.panel--education {
+  order: 5;
+}
+
+.panel--languages {
+  order: 6;
+}
+
+@container page (min-width: 56rem) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 19rem;
+    align-items: start;
+  }
+
+  .main,
+  .sidebar {
+    display: grid;
+    gap: 20px;
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 76px;
+  }
+}
+
+// Compact skills in one column wide enough for items to share a line (tablet,
+// print). On a phone every item fills the width, so separators would dangle.
+@container page (min-width: 36rem) and (max-width: 55.99rem) {
+  // Scoped through the panel so it outranks the base list rule further down.
+  .panel--skills .skill-group ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 0;
+
+    li:not(:last-child)::after {
+      content: '·';
+      margin: 0 8px;
+      color: var(--page-muted);
+    }
+  }
+}
+
+.panel {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  padding: 24px;
+  color: var(--page-copy);
+}
+
+.bullets {
+  display: grid;
+  gap: 6px;
+  padding-left: 18px;
+
+  li::marker {
+    color: var(--datha-primary);
+  }
+
+  strong {
+    color: var(--page-ink);
+    font-weight: 600;
+  }
+
+  a {
+    margin-left: 4px;
+    font-size: 13px;
+    word-break: break-word;
+  }
+}
+
+.platform-card {
+  display: grid;
+  gap: 6px;
+  padding: 22px 24px;
+  border-color: color-mix(in srgb, var(--datha-primary) 40%, transparent);
+  color: var(--page-copy);
+
+  &__title {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  &__body {
+    font-size: 14px;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+  }
+}
+
+.timeline {
+  display: grid;
+  gap: 32px;
+  padding: 0 0 0 6px;
+  list-style: none;
+}
+
+.role {
+  position: relative;
+  display: grid;
+  gap: 12px;
+  padding-left: 24px;
+
+  // The rail fades from the brand gradient into the panel.
+  &::after {
+    content: '';
+    position: absolute;
+    top: 14px;
+    bottom: -32px;
+    left: 0;
+    width: 2px;
+    background: linear-gradient(
+      var(--datha-primary),
+      color-mix(in srgb, #0546ff 40%, transparent) 60%,
+      transparent
+    );
+  }
+
+  &:last-child::after {
+    bottom: 0;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: -5px;
+    z-index: 1;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--datha-primary-400), #0546ff);
+    box-shadow: 0 0 0 4px var(--page-tint);
+  }
+
+  &__header {
+    display: grid;
+    gap: 2px;
+    break-inside: avoid;
+    break-after: avoid;
+  }
+
+  &__title {
+    color: var(--page-ink);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  &__client {
+    color: var(--page-kicker);
+    font-weight: 600;
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 14px;
+    color: var(--page-muted);
+    font-size: 13px;
+  }
+
+  &__roles {
+    font-size: 14px;
+    font-style: italic;
+  }
+
+  li {
+    break-inside: avoid;
+  }
+}
+
+.skill-group {
+  & + & {
+    margin-top: 6px;
+  }
+
+  h3 {
+    margin-bottom: 4px;
+    color: var(--page-ink);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  ul {
+    display: grid;
+    gap: 3px;
+    padding: 0;
+    list-style: none;
+    font-size: 13.5px;
+  }
+}
+
+.strong {
+  color: var(--page-ink);
+  font-weight: 600;
+}
+
+.muted {
+  font-size: 14px;
+}
+
+@media print {
+  .page {
+    max-width: none;
+    padding: 0;
+  }
+
+  .hero {
+    gap: 6px;
+    max-width: none;
+    margin-bottom: 12px;
+  }
+
+  .name {
+    font-size: 30pt;
+  }
+
+  .button {
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
+    color: var(--page-link);
+
+    svg {
+      display: none;
+    }
+  }
+
+  // Flex column, not grid: same ordering as the one-column screen layout, and
+  // it paginates without the grid row-overlap bug below.
+  .layout {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .main,
+  .sidebar {
+    display: contents;
+  }
+
+  .skill-group ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 0;
+
+    li:not(:last-child)::after {
+      content: '·';
+      margin: 0 8px;
+      color: var(--page-muted);
+    }
+  }
+
+  .panel {
+    padding: 10px 0;
+  }
+
+  .sidebar {
+    position: static;
+  }
+
+  .section-title {
+    break-after: avoid;
+  }
+
+  // Chrome does not grow a grid row when a child is pushed to the next page,
+  // so the next row prints on top of it. Block flow paginates correctly.
+  .panel,
+  .timeline,
+  .role,
+  .role__header,
+  .bullets {
+    display: block;
+  }
+
+  .role + .role {
+    margin-top: 22px;
+  }
+
+  .role > * + *,
+  .panel > * + * {
+    margin-top: 10px;
+  }
+
+  .bullets li + li {
+    margin-top: 5px;
+  }
+
+  .role::before,
+  .role::after {
+    print-color-adjust: exact;
+  }
+}

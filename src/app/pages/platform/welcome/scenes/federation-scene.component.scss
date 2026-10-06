@@ -1,0 +1,129 @@
+// The remotes dock into the shell frame as the reader scrolls.
+
+@use '../welcome' as wl;
+
+@include wl.scene-copy;
+@include wl.scene-layout;
+
+@media (min-width: 56rem) {
+  .wl-fed {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: center;
+  }
+}
+
+.wl-frame {
+  @include wl.glass;
+  overflow: hidden;
+}
+
+.wl-frame__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--datha-glass-edge);
+
+  span {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background: var(--datha-glass-edge);
+  }
+
+  em {
+    margin-inline-start: auto;
+    color: var(--page-muted);
+    font-family: ui-monospace, monospace;
+    font-size: 0.75rem;
+    font-style: normal;
+  }
+}
+
+.wl-frame__body {
+  display: flex;
+  min-height: 16rem;
+}
+
+.wl-frame__rail {
+  width: 2.75rem;
+  flex-shrink: 0;
+  border-inline-end: 1px solid var(--datha-glass-edge);
+  background: color-mix(in srgb, var(--datha-primary-500) 6%, transparent);
+}
+
+.wl-frame__slots {
+  display: grid;
+  flex: 1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+@media (max-width: wl.$narrow) {
+  .wl-frame__slots {
+    grid-template-columns: 1fr;
+  }
+}
+
+.wl-frame__slot {
+  border: 1.5px dashed var(--datha-glass-edge);
+  border-radius: 1rem;
+}
+
+.wl-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  height: 100%;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: var(--datha-glass-bg-surface);
+  border: 1px solid color-mix(in srgb, var(--datha-primary-500) 40%, transparent);
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--datha-primary-700) 14%, transparent);
+
+  i {
+    color: var(--datha-primary-500);
+    font-size: 1.4rem;
+  }
+
+  strong {
+    font-size: 0.95rem;
+  }
+
+  span {
+    color: var(--page-copy);
+    font-size: 0.8rem;
+    line-height: 1.45;
+  }
+}
+
+// A phone has no room for the frame's rail, and a stacked tile does not need
+// a column's height: each becomes a compact row, icon beside its text.
+@media (max-width: wl.$narrow) {
+  .wl-frame__rail {
+    display: none;
+  }
+
+  .wl-frame__body {
+    min-height: 0;
+  }
+
+  .wl-frame__slots {
+    gap: 0.6rem;
+    padding: 0.75rem;
+  }
+
+  .wl-tile {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 0.85rem;
+    align-items: center;
+    padding: 0.85rem 1rem;
+
+    i {
+      grid-row: span 2;
+      font-size: 1.5rem;
+    }
+  }
+}

@@ -1,0 +1,130 @@
+// Shared by the welcome page and its scene components. Mixins, not bare
+// rules: each component compiles its own copy, scoped to itself, because the
+// scenes are deferred chunks and carry their styles with them.
+//
+// Every rule outside `.is-animated` draws a scene in its finished state, which
+// is what the prerendered HTML, a reader who asked for reduced motion and a
+// browser without JavaScript all see. A scene sets `.is-animated` on its host
+// only once Motion has loaded, and only rules under it may hide anything.
+
+$pin: 64rem; // keep in step with PIN_QUERY in welcome-animations.ts
+$narrow: 40rem;
+
+@mixin glass {
+  border: 1px solid var(--datha-glass-edge);
+  border-radius: var(--datha-glass-radius-surface);
+  background: var(--datha-glass-bg-surface);
+  box-shadow:
+    inset 0 1px 0 var(--datha-glass-highlight),
+    var(--page-shadow);
+  -webkit-backdrop-filter: blur(var(--datha-glass-blur-surface))
+    saturate(var(--datha-glass-saturation));
+  backdrop-filter: blur(var(--datha-glass-blur-surface)) saturate(var(--datha-glass-saturation));
+}
+
+/** Headings, body copy and the native-CSS reveal every scene uses. */
+@mixin scene-copy {
+  .wl-kicker {
+    margin: 0 0 0.75rem;
+    color: var(--datha-primary-600);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  :host-context(.dark) .wl-kicker {
+    color: var(--datha-primary-300);
+  }
+
+  .wl-scene__title {
+    margin: 0;
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  .wl-scene__body {
+    margin: 1rem 0 0;
+    max-width: 38rem;
+    color: var(--page-copy);
+    font-size: 1.05rem;
+    line-height: 1.65;
+  }
+
+  // A native scroll timeline, so no JavaScript; other browsers keep the
+  // static copy.
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .wl-reveal {
+        animation: wl-rise linear both;
+        animation-timeline: view();
+        animation-range: entry 5% cover 30%;
+      }
+    }
+  }
+
+  @keyframes wl-rise {
+    from {
+      opacity: 0;
+      transform: translateY(2.5rem);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+/** The centred, padded column a scene sits in. */
+@mixin scene-frame {
+  position: relative;
+  z-index: 1;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: clamp(4rem, 12vh, 8rem) 1.5rem;
+
+  @media (max-width: 30rem) {
+    padding-inline: 1rem;
+  }
+}
+
+@mixin scene-layout {
+  :host {
+    position: relative;
+    z-index: 1;
+    display: block;
+  }
+
+  .wl-scene {
+    @include scene-frame;
+    display: grid;
+    gap: 3rem;
+  }
+}
+
+/** The rounded icon tile inside a diagram node. */
+@mixin node-icon {
+  .wl-node-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    flex-shrink: 0;
+    border-radius: 0.9rem;
+    border: 1px solid var(--datha-glass-edge);
+    background: color-mix(in srgb, var(--datha-primary-500) 14%, var(--datha-glass-bg-surface));
+    color: var(--datha-primary-600);
+    font-size: 1.2rem;
+    transition:
+      background-color 0.25s ease,
+      color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+
+  :host-context(.dark) .wl-node-icon {
+    color: var(--datha-primary-300);
+  }
+}

@@ -1,0 +1,69 @@
+<section class="wl-scene wl-ms" aria-labelledby="wl-ms-title">
+  <div class="wl-scene__copy wl-reveal">
+    <p class="wl-kicker">{{ 'WELCOME.REQ.KICKER' | translate }}</p>
+    <h2 id="wl-ms-title" class="wl-scene__title">
+      {{ 'WELCOME.REQ.TITLE' | translate }}
+    </h2>
+    <p class="wl-scene__body">{{ 'WELCOME.REQ.BODY' | translate }}</p>
+  </div>
+
+  <div class="wl-ms__map" data-anim="ms-map">
+    <div class="wl-ms__card">
+      <div class="wl-ms__card-head">
+        <span class="wl-node-icon"><i appIcon="desktop"></i></span>
+        <div>
+          <strong>{{ 'WELCOME.REQ.BROWSER' | translate }}</strong>
+          <span class="wl-ms__caption">{{ 'WELCOME.REQ.BROWSER_CAPTION' | translate }}</span>
+        </div>
+      </div>
+      <div class="wl-ms__requests" aria-hidden="true">
+        @for (route of routes; track route.path) {
+          <code class="wl-ms__request" data-anim="ms-request" [attr.data-service]="route.service"
+            ><b>{{ route.method }}</b> {{ wrapAtSlashes(route.path) }}</code
+          >
+        }
+      </div>
+    </div>
+
+    <span class="wl-ms__wire" aria-hidden="true">
+      <span class="wl-ms__packet"></span>
+    </span>
+
+    <div class="wl-ms__card wl-ms__gateway">
+      <div class="wl-ms__card-head">
+        <span class="wl-node-icon"><i appIcon="shield"></i></span>
+        <div>
+          <strong>api-gateway</strong>
+          <span class="wl-ms__caption">Go · chi</span>
+        </div>
+      </div>
+      <ul class="wl-ms__checks">
+        <li>
+          <i appIcon="check"></i>
+          {{ 'WELCOME.REQ.CHECK_JWT' | translate }}
+        </li>
+        <li>
+          <i appIcon="check"></i>
+          {{ 'WELCOME.REQ.CHECK_ROUTE' | translate }}
+        </li>
+      </ul>
+    </div>
+
+    <span class="wl-ms__bus" aria-hidden="true"></span>
+
+    <ul class="wl-ms__services">
+      @for (service of services; track service.name) {
+        <li class="wl-ms__service" data-anim="ms-service">
+          <code class="wl-ms__name">{{ service.name }}</code>
+          <code class="wl-ms__prefix">{{ service.prefix }}/*</code>
+          <span class="wl-ms__stack">{{ service.stack }}</span>
+          <span class="wl-ms__data">
+            @for (store of service.data; track store) {
+              <span class="wl-ms__store"><i appIcon="database"></i> {{ store }}</span>
+            }
+          </span>
+        </li>
+      }
+    </ul>
+  </div>
+</section>

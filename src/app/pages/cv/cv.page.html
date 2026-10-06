@@ -1,0 +1,147 @@
+<main class="page">
+  <section class="hero">
+    <app-format-switch [lang]="lang()" current="cv" />
+    <p class="kicker">{{ cv().headline }}</p>
+    <h1 class="name gradient-text">{{ cv().name }}</h1>
+    <p class="lede">{{ cv().summary[0] }}</p>
+    <div class="actions">
+      <a class="button button--primary" [href]="'mailto:' + profile.email">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="5" width="18" height="14" rx="2" />
+          <path d="m3 7 9 6 9-6" />
+        </svg>
+        {{ profile.email }}
+      </a>
+      <a class="button button--ghost" [href]="profile.linkedin" target="_blank" rel="noopener">
+        <i appIcon="linkedin"></i>
+        {{ ui().linkedin }}
+      </a>
+      <a class="button button--ghost" [href]="profile.github" target="_blank" rel="noopener">
+        <i appIcon="github"></i>
+        {{ ui().github }}
+      </a>
+      <button type="button" class="button button--ghost no-print" (click)="print()">
+        {{ ui().savePdf }}
+      </button>
+    </div>
+  </section>
+
+  <div class="layout">
+    <div class="main">
+      <section class="panel panel--summary glass" aria-labelledby="summary-title">
+        <h2 id="summary-title" class="section-title">{{ ui().sections.summary }}</h2>
+        <p>{{ cv().summary[1] }}</p>
+        <ul class="bullets">
+          @for (line of cv().roleSummary; track $index) {
+            <li>{{ line }}</li>
+          }
+        </ul>
+      </section>
+
+      <section class="panel panel--experience glass" aria-labelledby="experience-title">
+        <h2 id="experience-title" class="section-title">{{ ui().sections.experience }}</h2>
+        <ol class="timeline">
+          @for (role of roles(); track role.id) {
+            <li class="role">
+              <header class="role__header">
+                <h3 class="role__title">{{ role.title }}</h3>
+                @if (role.client) {
+                  <p class="role__client">{{ role.client }}</p>
+                }
+                <p class="role__meta">
+                  <span>{{ role.period }}</span>
+                  <span>{{ role.duration }}</span>
+                  <span>{{ ui().team }} {{ role.teamSize }}</span>
+                </p>
+                <p class="role__roles">{{ role.roles.join(' · ') }}</p>
+              </header>
+
+              <p class="role__overview">{{ role.overview }}</p>
+
+              @if (role.projects.length) {
+                <ul class="bullets">
+                  @for (project of role.projects; track project.name) {
+                    <li>
+                      <strong>{{ project.name }}</strong> — {{ project.description }}
+                      @if (project.url) {
+                        <a [href]="project.url" target="_blank" rel="noopener">{{
+                          project.label
+                        }}</a>
+                      }
+                    </li>
+                  }
+                </ul>
+              }
+
+              <ul class="bullets">
+                @for (duty of role.responsibilities; track $index) {
+                  <li>
+                    @if (duty.label) {
+                      <strong>{{ duty.label }}:</strong>
+                    }
+                    {{ duty.text }}
+                  </li>
+                }
+              </ul>
+
+              <ul class="chips" [attr.aria-label]="ui().sections.stack">
+                @for (tech of role.stack; track tech) {
+                  <li>{{ tech }}</li>
+                }
+              </ul>
+            </li>
+          }
+        </ol>
+      </section>
+
+      <section class="platform-card glass glass-sheen no-print">
+        <p class="kicker">{{ ui().platformCard.kicker }}</p>
+        <h2 class="platform-card__title gradient-text">datha platform</h2>
+        <p class="platform-card__body">{{ ui().platformCard.body }}</p>
+        <div class="platform-card__actions">
+          <a class="button button--primary" [routerLink]="i18n.link('platform', lang())">
+            {{ ui().platformCard.cta }} →
+          </a>
+          <a
+            class="button button--ghost"
+            [href]="profile.platformRepo"
+            target="_blank"
+            rel="noopener"
+          >
+            <i appIcon="github"></i>
+            {{ ui().platformCard.github }}
+          </a>
+        </div>
+      </section>
+    </div>
+
+    <aside class="sidebar">
+      <section class="panel panel--skills glass" aria-labelledby="skills-title">
+        <h2 id="skills-title" class="section-title">{{ ui().sections.skills }}</h2>
+        @for (group of cv().skills; track group.name) {
+          <div class="skill-group">
+            <h3>{{ group.name }}</h3>
+            <ul>
+              @for (item of group.items; track item) {
+                <li>{{ item }}</li>
+              }
+            </ul>
+          </div>
+        }
+      </section>
+
+      <section class="panel panel--education glass" aria-labelledby="education-title">
+        <h2 id="education-title" class="section-title">{{ ui().sections.education }}</h2>
+        <p class="strong">{{ cv().education.degree }}</p>
+        <p class="muted">{{ cv().education.school }}, {{ cv().education.place }}</p>
+      </section>
+
+      <section class="panel panel--languages glass" aria-labelledby="languages-title">
+        <h2 id="languages-title" class="section-title">{{ ui().sections.languages }}</h2>
+        @for (language of cv().languages; track language) {
+          <p>{{ language }}</p>
+        }
+      </section>
+    </aside>
+  </div>
+</main>

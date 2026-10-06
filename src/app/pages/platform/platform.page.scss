@@ -1,0 +1,188 @@
+// The page's own parts: the hero, the repositories and the call to action,
+// ported from shell-frontend's welcome page. The scenes style themselves
+// (welcome/scenes/), sharing `welcome/_welcome.scss`.
+
+@use 'welcome/welcome' as wl;
+@use '../../../styles/glass';
+
+@include wl.scene-copy;
+
+:host {
+  display: block;
+}
+
+.wl-root {
+  overflow: clip;
+}
+
+/* ---- Hero ---------------------------------------------------------- */
+
+.wl-hero {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  min-height: calc(100dvh - 3.5rem);
+  padding: 3rem 1.5rem 5rem;
+  text-align: center;
+}
+
+.wl-hero__inner {
+  max-width: 54rem;
+}
+
+.wl-hero__title {
+  margin: 0;
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+  background: linear-gradient(120deg, var(--page-ink) 30%, var(--datha-primary-500) 70%, #0546ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.wl-hero__lede {
+  margin: 1.5rem auto 0;
+  max-width: 40rem;
+  color: var(--page-copy);
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.wl-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 2.25rem;
+}
+
+// A hero call to action is drawn larger than an in-page button.
+.wl-cta-button {
+  min-height: 3rem;
+  padding: 0 1.5rem;
+  font-size: 1rem;
+}
+
+.wl-hero__cue {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  translate: -50% 0;
+  color: var(--page-muted);
+  font-size: 1.1rem;
+  transition: opacity 0.4s ease;
+
+  &.is-gone {
+    opacity: 0;
+  }
+}
+
+// Holds the place of a scene that has not downloaded yet; only seen after
+// client-side navigation, since a prerendered page has every scene's HTML.
+.wl-placeholder {
+  min-height: 60vh;
+}
+
+.wl-anchor {
+  scroll-margin-top: 4rem;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+/* ---- Repositories ---------------------------------------------------- */
+
+.wl-repos {
+  @include wl.scene-frame;
+  display: grid;
+  gap: 2.5rem;
+}
+
+.wl-repos__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0.5rem;
+  list-style: none;
+  @include glass.surface;
+}
+
+.wl-repo {
+  display: grid;
+  gap: 2px;
+  padding: 0.85rem 1rem;
+  border-radius: 0.9rem;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background: var(--page-tint);
+  }
+
+  &__name {
+    justify-self: start;
+    color: var(--page-kicker);
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  &__stack {
+    color: var(--page-muted);
+    font-size: 0.8rem;
+  }
+
+  &__role {
+    color: var(--page-copy);
+    font-size: 0.9rem;
+  }
+}
+
+/* ---- Call to action -------------------------------------------------- */
+
+.wl-cta {
+  @include wl.scene-frame;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: clamp(4rem, 12vh, 7rem);
+  text-align: center;
+
+  .wl-hero__actions {
+    margin-top: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: scroll()) {
+    // The hero starts at its natural state, so this never delays first paint.
+    .wl-hero__inner {
+      animation: wl-hero-out linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 70vh;
+    }
+  }
+
+  .wl-hero__cue i {
+    animation: wl-bob 1.8s ease-in-out infinite;
+  }
+}
+
+@keyframes wl-hero-out {
+  to {
+    opacity: 0.15;
+    transform: translateY(-6vh) scale(0.96);
+  }
+}
+
+@keyframes wl-bob {
+  50% {
+    transform: translateY(0.4rem);
+  }
+}

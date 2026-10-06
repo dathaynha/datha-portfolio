@@ -1,0 +1,316 @@
+// The three products; pinned and scrolled sideways on wide screens.
+
+@use '../welcome' as wl;
+
+@include wl.scene-copy;
+
+// The section is the host, so the pinned height lands on it.
+:host {
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+.wl-products__sticky {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: clamp(4rem, 12vh, 8rem) 1.5rem;
+}
+
+.wl-products__head {
+  margin-bottom: 2.5rem;
+}
+
+// minmax(0, …): the log rows do not wrap, and a bare `1fr` track grows to
+// their min-content width, pushing the panels off a phone screen.
+.wl-products__track {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+}
+
+@media (min-width: wl.$pin) {
+  .wl-products__track {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.wl-panel {
+  @include wl.glass;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem;
+
+  h3 {
+    margin: 1.25rem 0 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0.5rem 0 0;
+    color: var(--page-copy);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+}
+
+.wl-panel__demo {
+  position: relative;
+  height: 15rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--datha-primary-500) 7%, transparent);
+  overflow: hidden;
+}
+
+// Filled only while the answer is typing; see `.is-animated` below.
+.wl-chat__typed {
+  display: none;
+}
+
+.wl-chat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.wl-chat__bubble {
+  position: relative;
+  max-width: 85%;
+  margin: 0;
+  padding: 0.6rem 0.85rem;
+  border-radius: 1rem 1rem 1rem 0.3rem;
+  background: var(--datha-glass-bg-surface);
+  border: 1px solid var(--datha-glass-edge);
+  color: var(--page-ink);
+  font-size: 0.85rem;
+  line-height: 1.5;
+
+  &.is-user {
+    align-self: flex-end;
+    border-radius: 1rem 1rem 0.3rem;
+    background: var(--datha-primary-500);
+    border-color: transparent;
+    color: var(--datha-surface-0);
+  }
+}
+
+// The svg and the peers share one 0-100 grid: the field.
+.wl-mesh__field {
+  position: absolute;
+  inset: 1.75rem 1.75rem 3rem;
+
+  svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  line {
+    stroke: var(--datha-primary-500);
+    stroke-width: 1.5;
+    vector-effect: non-scaling-stroke;
+  }
+}
+
+.wl-mesh__peer {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--datha-primary-500);
+  color: var(--datha-surface-0);
+  font-size: 0.85rem;
+  font-weight: 700;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.wl-mesh__badge {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 50%;
+  translate: -50% 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: var(--datha-glass-bg-surface);
+  border: 1px solid var(--datha-glass-edge);
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.wl-log__head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.6rem;
+  color: var(--page-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.wl-log__live {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--datha-green-500, #22c55e);
+}
+
+.wl-log__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--datha-glass-edge);
+  font-size: 0.78rem;
+
+  // A family list ending in `monospace` makes the browser size it from its
+  // own monospace default, so the size is set rather than inherited.
+  code {
+    flex-shrink: 0;
+    color: var(--page-ink);
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 0.78rem;
+  }
+
+  span {
+    min-width: 0;
+    overflow: hidden;
+    color: var(--page-muted);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+// A phone: nested padding was spending a fifth of the width on frames, and
+// the answer bubble and the log rows need more height than a fixed demo
+// holds at this width, so those demos grow instead of clipping.
+@media (max-width: wl.$narrow) {
+  // The same gutter as the other scenes' frame on a phone.
+  .wl-products__sticky {
+    padding-inline: 1rem;
+  }
+
+  .wl-panel {
+    padding: 0.85rem;
+  }
+
+  .wl-panel__demo {
+    padding: 0.85rem;
+  }
+
+  .wl-chat,
+  .wl-log {
+    height: auto;
+    min-height: 15rem;
+  }
+
+  .wl-log__row code,
+  .wl-log__row span {
+    font-size: 0.72rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .wl-log__live {
+    animation: wl-pulse 1.6s ease-in-out infinite;
+  }
+}
+
+@keyframes wl-pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes wl-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+// Initial states, only once Motion has loaded (see _welcome.scss).
+:host(.is-animated) {
+  // drawLines() measures these and reveals them; see welcome-animations.ts.
+  .wl-mesh__field line {
+    opacity: 0;
+  }
+
+  .wl-chat__bubble.is-typing {
+    color: transparent;
+  }
+
+  .wl-chat__bubble.is-typing .wl-chat__typed {
+    position: absolute;
+    inset: 0.6rem 0.85rem;
+    display: block;
+    color: var(--page-ink);
+
+    &::after {
+      content: '▍';
+      margin-inline-start: 1px;
+      color: var(--datha-primary-500);
+      animation: wl-caret 0.9s steps(1) infinite;
+    }
+  }
+
+  .wl-mesh__peer {
+    transform: translate(-50%, -50%) scale(0);
+  }
+
+  .wl-mesh__badge,
+  .wl-log__row {
+    opacity: 0;
+  }
+
+  @media (min-width: wl.$pin) {
+    // Pinned: the section is tall, its content sticks, and the track is
+    // translated sideways by the scroll position (welcome-animations.ts).
+    .wl-products {
+      height: 260vh;
+    }
+
+    .wl-products__sticky {
+      position: sticky;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-width: none;
+      height: 100vh;
+      height: 100dvh;
+      padding-inline: 0;
+      overflow: hidden;
+    }
+
+    .wl-products__head {
+      width: 100%;
+      max-width: 72rem;
+      margin-inline: auto;
+      padding-inline: 1.5rem;
+    }
+
+    .wl-products__track {
+      display: flex;
+      width: max-content;
+      gap: 2rem;
+      padding-inline: max(1.5rem, calc((100vw - 72rem) / 2 + 1.5rem));
+      will-change: transform;
+    }
+
+    .wl-panel {
+      width: min(38rem, 62vw);
+    }
+  }
+}
