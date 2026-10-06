@@ -31,7 +31,3 @@ pnpm test           # unit specs (Vitest)
 pnpm build:pages    # production build for GitHub Pages
 pnpm verify         # screenshots at three widths, light and dark, plus the PDFs
 ```
-
-## Working with Claude Code
-
-`CLAUDE.md` and `.claude/` hold the rules, skills and hooks this site is built under: content rules (the CV text is never reworded), a visual verification skill, and hooks that keep every edit formatted and every commit free of AI attribution.
