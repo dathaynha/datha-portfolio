@@ -1,0 +1,75 @@
+<section class="wl-scene wl-mobile" aria-labelledby="wl-mobile-title">
+  <div class="wl-scene__copy wl-reveal">
+    <p class="wl-kicker">{{ 'WELCOME.MOBILE.KICKER' | translate }}</p>
+    <h2 id="wl-mobile-title" class="wl-scene__title">
+      {{ 'WELCOME.MOBILE.TITLE' | translate }}
+    </h2>
+    <p class="wl-scene__body">{{ 'WELCOME.MOBILE.BODY' | translate }}</p>
+    <ul class="wl-mobile__points">
+      @for (point of points; track point.titleKey) {
+        <li>
+          <i [appIcon]="point.icon"></i>
+          <div>
+            <strong>{{ point.titleKey | translate }}</strong>
+            <span>{{ point.bodyKey | translate }}</span>
+          </div>
+        </li>
+      }
+    </ul>
+  </div>
+
+  <!-- The same chat list three times: the standalone web build, then the two
+       apps Capacitor makes of it. Drawn, not a screenshot, so it follows the
+       theme. -->
+  <div class="wl-mobile__stage" data-anim="mobile-stage" aria-hidden="true">
+    <ng-template #chatList>
+      <ul class="wl-chat">
+        @for (row of rows; track row) {
+          <li [class.is-unread]="row === 1">
+            <span class="wl-chat__avatar"></span>
+            <span class="wl-chat__lines"><b></b><i></i></span>
+          </li>
+        }
+      </ul>
+    </ng-template>
+
+    <div class="wl-mobile__web">
+      <div class="wl-mobile__bar">
+        <span></span><span></span><span></span>
+        <em>messenger · :4003</em>
+      </div>
+      <div class="wl-mobile__web-body">
+        <p class="wl-mobile__title">Chats</p>
+        <ng-container [ngTemplateOutlet]="chatList" />
+      </div>
+    </div>
+
+    <p class="wl-mobile__arrow">
+      <i appIcon="arrow-down"></i>
+      Capacitor
+    </p>
+
+    <div class="wl-mobile__phones">
+      @for (phone of phones; track phone.id; let i = $index) {
+        <figure
+          class="wl-phone"
+          [class.is-ios]="phone.id === 'ios'"
+          data-anim="mobile-phone"
+          [attr.data-i]="i"
+        >
+          <div class="wl-phone__screen">
+            <span class="wl-phone__camera"></span>
+            <p class="wl-mobile__title">Chats</p>
+            <ng-container [ngTemplateOutlet]="chatList" />
+            <div class="wl-phone__tabs">
+              <i appIcon="home"></i>
+              <i appIcon="comments" class="is-active"></i>
+              <i appIcon="cog"></i>
+            </div>
+          </div>
+          <figcaption>{{ phone.label }}</figcaption>
+        </figure>
+      }
+    </div>
+  </div>
+</section>

@@ -23,6 +23,7 @@ export const SCENE_MOTION = {
   events: (host: HTMLElement): VoidFunction => stepEvents(host),
   products: (host: HTMLElement): VoidFunction =>
     combine(pinProducts(host), typeChat(host), buildMesh(host), streamLog(host)),
+  mobile: (host: HTMLElement): VoidFunction => shipPhones(host),
   observability: (host: HTMLElement): VoidFunction => combine(countStats(host), drawChart(host)),
   stack: (host: HTMLElement): VoidFunction => staggerStack(host),
 };
@@ -102,6 +103,35 @@ function dockTiles(root: HTMLElement): VoidFunction {
       { target: stage, offset: ['start end', 'center center'] },
     );
   });
+  return () => stops.forEach((stop) => stop());
+}
+
+/**
+ * Scene 6: the two phones come out of the browser window above them, one
+ * after the other, scrubbed by scroll like the docking tiles.
+ */
+function shipPhones(root: HTMLElement): VoidFunction {
+  const stage = one(root, 'mobile-stage');
+  if (!stage) return () => undefined;
+  const stops = all(root, 'mobile-phone').map((phone, i) =>
+    scroll(
+      animate(
+        phone,
+        {
+          transform: [
+            `translate(${i === 0 ? 40 : -40}%, -70%) scale(0.55)`,
+            'translate(0%, 0%) scale(1)',
+          ],
+          opacity: [0, 1],
+        },
+        { ease: 'linear' },
+      ),
+      {
+        target: stage,
+        offset: [`start ${i === 0 ? 'end' : '90%'}`, 'center center'],
+      },
+    ),
+  );
   return () => stops.forEach((stop) => stop());
 }
 

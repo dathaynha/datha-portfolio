@@ -58,6 +58,12 @@
   }
 
   @defer (on viewport; hydrate on viewport) {
+    <app-welcome-mobile-scene />
+  } @placeholder {
+    <div class="wl-placeholder"></div>
+  }
+
+  @defer (on viewport; hydrate on viewport) {
     <app-welcome-observability-scene />
   } @placeholder {
     <div class="wl-placeholder"></div>

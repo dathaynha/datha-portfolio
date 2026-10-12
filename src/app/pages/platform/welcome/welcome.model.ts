@@ -6,6 +6,13 @@ export interface WelcomeNode {
   readonly captionKey: string;
 }
 
+/** One benefit beside the mobile scene's phones. */
+export interface WelcomePoint {
+  readonly icon: string;
+  readonly titleKey: string;
+  readonly bodyKey: string;
+}
+
 /** A headline number in the observability scene; counted up on first view. */
 export interface WelcomeStat {
   readonly value: number;

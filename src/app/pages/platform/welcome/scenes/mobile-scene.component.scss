@@ -1,0 +1,245 @@
+// The standalone web build, and the two apps Capacitor makes of it.
+
+@use '../welcome' as wl;
+
+@include wl.scene-copy;
+@include wl.scene-layout;
+
+@media (min-width: 56rem) {
+  .wl-mobile {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+  }
+}
+
+.wl-mobile__points {
+  display: grid;
+  gap: 1rem;
+  margin: 1.75rem 0 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.85rem;
+    align-items: start;
+  }
+
+  i {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.75rem;
+    background: color-mix(in srgb, var(--datha-primary-500) 14%, transparent);
+    color: var(--datha-primary-600);
+    font-size: 1rem;
+    // The tile is the box; the SVG glyph inside keeps the 1rem a font icon had.
+    padding: 0.625rem;
+  }
+
+  strong {
+    display: block;
+    font-size: 0.98rem;
+  }
+
+  span {
+    color: var(--page-copy);
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+}
+
+:host-context(.dark) .wl-mobile__points i {
+  color: var(--datha-primary-300);
+}
+
+.wl-mobile__stage {
+  display: grid;
+  justify-items: center;
+  gap: 0.75rem;
+}
+
+.wl-mobile__web {
+  @include wl.glass;
+  width: 100%;
+  max-width: 26rem;
+  overflow: hidden;
+}
+
+.wl-mobile__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid var(--datha-glass-edge);
+
+  span {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: var(--datha-glass-edge);
+  }
+
+  em {
+    margin-inline-start: auto;
+    color: var(--page-muted);
+    font-family: ui-monospace, monospace;
+    font-size: 0.72rem;
+    font-style: normal;
+  }
+}
+
+.wl-mobile__web-body {
+  padding: 0.75rem 1rem 1rem;
+}
+
+.wl-mobile__title {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.wl-mobile__arrow {
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+  margin: 0;
+  color: var(--page-muted);
+  font-family: ui-monospace, monospace;
+  font-size: 0.78rem;
+}
+
+.wl-mobile__phones {
+  display: flex;
+  gap: 1.25rem;
+  justify-content: center;
+}
+
+// A drawn phone: a rounded body, the camera, the list, a tab bar.
+.wl-phone {
+  margin: 0;
+  text-align: center;
+
+  figcaption {
+    margin-top: 0.5rem;
+    color: var(--page-muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+}
+
+.wl-phone__screen {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 9.5rem;
+  height: 18rem;
+  padding: 1.6rem 0.65rem 0;
+  overflow: hidden;
+  border: 0.4rem solid var(--page-ink);
+  border-radius: 1.6rem;
+  background: var(--datha-glass-bg-surface);
+  box-shadow: 0 18px 40px color-mix(in srgb, var(--datha-primary-700) 22%, transparent);
+  text-align: start;
+
+  .wl-mobile__title {
+    font-size: 1.05rem;
+  }
+}
+
+// Android: a punch-hole camera; iOS: the pill-shaped island.
+.wl-phone__camera {
+  position: absolute;
+  top: 0.45rem;
+  left: 50%;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--page-ink);
+  transform: translateX(-50%);
+}
+
+.wl-phone.is-ios .wl-phone__camera {
+  width: 2.4rem;
+  border-radius: 999px;
+}
+
+.wl-phone__tabs {
+  display: flex;
+  justify-content: space-around;
+  margin: auto -0.65rem 0;
+  padding: 0.55rem 0 0.7rem;
+  border-top: 1px solid var(--datha-glass-edge);
+  color: var(--page-muted);
+  font-size: 0.85rem;
+
+  .is-active {
+    color: var(--datha-primary-500);
+  }
+}
+
+.wl-chat {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.55rem;
+    align-items: center;
+  }
+}
+
+.wl-chat__avatar {
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--datha-primary-500) 30%, transparent);
+}
+
+.wl-chat__lines {
+  display: grid;
+  gap: 0.3rem;
+
+  b,
+  i {
+    display: block;
+    height: 0.4rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--page-ink) 22%, transparent);
+  }
+
+  b {
+    width: 60%;
+  }
+
+  i {
+    width: 85%;
+    background: color-mix(in srgb, var(--page-ink) 10%, transparent);
+  }
+}
+
+.wl-chat li.is-unread .wl-chat__lines b {
+  background: var(--datha-primary-500);
+}
+
+@media (max-width: wl.$narrow) {
+  .wl-mobile__phones {
+    gap: 0.75rem;
+  }
+
+  .wl-phone__screen {
+    width: 8.5rem;
+    height: 16rem;
+  }
+}
+
+// Under Motion only: the phones start inside the browser window above them.
+:host(.is-animated) [data-anim='mobile-phone'] {
+  opacity: 0;
+}

@@ -127,3 +127,33 @@
     }
   }
 }
+
+// Something the platform found and reported upstream: a note, not a headline.
+.wl-fed__upstream {
+  display: flex;
+  gap: 0.6rem;
+  align-items: baseline;
+  max-width: 38rem;
+  margin: 1.25rem 0 0;
+  color: var(--page-muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+
+  // An SVG has no text baseline; nudge it onto the first line instead.
+  > i {
+    flex: none;
+    align-self: flex-start;
+    margin-top: 0.2em;
+  }
+
+  a {
+    color: var(--datha-primary-600);
+    font-family: ui-monospace, monospace;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+}
+
+:host-context(.dark) .wl-fed__upstream a {
+  color: var(--datha-primary-300);
+}

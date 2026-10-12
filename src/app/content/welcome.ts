@@ -22,6 +22,7 @@ export interface WelcomeText {
     MESSENGER_CAPTION: string;
     EVENT_STORE: string;
     EVENT_STORE_CAPTION: string;
+    UPSTREAM: string;
   };
   REQ: {
     KICKER: string;
@@ -55,6 +56,17 @@ export interface WelcomeText {
     MESSENGER_BODY: string;
     LOG_LIVE: string;
     EVENTS_BODY: string;
+  };
+  MOBILE: {
+    KICKER: string;
+    TITLE: string;
+    BODY: string;
+    POINT_CODE: string;
+    POINT_CODE_BODY: string;
+    POINT_STANDALONE: string;
+    POINT_STANDALONE_BODY: string;
+    POINT_NATIVE: string;
+    POINT_NATIVE_BODY: string;
   };
   OBSERVE: {
     KICKER: string;
@@ -90,13 +102,15 @@ export const WELCOME_EN: WelcomeText = {
   FED: {
     KICKER: 'Native Federation',
     TITLE: 'One shell. Apps that ship on their own.',
-    BODY: 'The shell is an Angular 22 host. Chatbot, Messenger and Event Store are separate apps in their own repositories, loaded at runtime through native import maps, and every one of them also runs without the shell.',
+    BODY: 'The shell is an Angular 22 host. Chatbot, Messenger and Event Store are separate apps in their own repositories, loaded at runtime through native import maps. Every one of them also runs without the shell, works offline, and shares one component library, so four apps look like one product.',
     CHATBOT: 'Chatbot',
     CHATBOT_CAPTION: 'Streaming answers from Gemini',
     MESSENGER: 'Messenger',
     MESSENGER_CAPTION: 'Chat, group calls and screen share',
     EVENT_STORE: 'Event Store',
     EVENT_STORE_CAPTION: 'Every event, searchable and replayable',
+    UPSTREAM:
+      'Found on the way and reported upstream: with server rendering, route preloads race the runtime import map.',
   },
   REQ: {
     KICKER: 'Microservices',
@@ -135,10 +149,24 @@ export const WELCOME_EN: WelcomeText = {
       'Answers stream token by token over server-sent events while a Python worker talks to Gemini. Attachments upload straight to blob storage.',
     MESH_BADGE: '4 in the call',
     MESSENGER_BODY:
-      'Group calls are a peer-to-peer WebRTC mesh. A Go service relays the signalling over WebSockets and Redis holds the room, so after a reload you rejoin with one click.',
+      'Group calls are a peer-to-peer WebRTC mesh. A Go service relays the signalling over WebSockets and Redis holds the room, so after a reload you rejoin with one click. It is also an iOS and Android app, below.',
     LOG_LIVE: 'Live',
     EVENTS_BODY:
-      'Every event on the platform lands here, partitioned by month and filterable by any payload field. Failed deliveries replay from the dead-letter queue.',
+      'Every event on the platform lands here, partitioned by month and filterable by any payload field. Activity charts show what happened per service and drill into the list; failed deliveries replay from the dead-letter queue.',
+  },
+  MOBILE: {
+    KICKER: 'One codebase, three platforms',
+    TITLE: 'A child app becomes a mobile app.',
+    BODY: 'Every micro-frontend has to run without the shell. That rule is what turns Messenger into an iOS and Android app: its standalone build already is a complete app, so Capacitor wraps exactly that build in a native shell. Nothing was rewritten and no second app exists.',
+    POINT_CODE: 'One codebase',
+    POINT_CODE_BODY:
+      'Chats, calls and sign-in are written once. The web, the iPhone and the Android app run the same code from the same repository.',
+    POINT_STANDALONE: 'Standalone by design',
+    POINT_STANDALONE_BODY:
+      'A remote that only worked inside the shell would have needed a separate mobile app. Because each one runs on its own, the app is a build, not a project.',
+    POINT_NATIVE: 'Native where it counts',
+    POINT_NATIVE_BODY:
+      'The system account sheet for Google, a native tab bar and page transitions, haptics, the keyboard and safe areas, and audio and video calls with the web.',
   },
   OBSERVE: {
     KICKER: 'Observability',
@@ -183,13 +211,15 @@ export const WELCOME_DE: WelcomeText = {
   FED: {
     KICKER: 'Native Federation',
     TITLE: 'Eine Shell. Apps, die eigenständig ausliefern.',
-    BODY: 'Die Shell ist ein Angular-22-Host. Chatbot, Messenger und Event Store sind eigene Apps in eigenen Repositories, zur Laufzeit über native Import Maps geladen, und jede läuft auch ohne die Shell.',
+    BODY: 'Die Shell ist ein Angular-22-Host. Chatbot, Messenger und Event Store sind eigene Apps in eigenen Repositories, zur Laufzeit über native Import Maps geladen. Jede läuft auch ohne die Shell, funktioniert offline und nutzt dieselbe Komponentenbibliothek, sodass vier Apps wie ein Produkt aussehen.',
     CHATBOT: 'Chatbot',
     CHATBOT_CAPTION: 'Gestreamte Antworten von Gemini',
     MESSENGER: 'Messenger',
     MESSENGER_CAPTION: 'Chat, Gruppenanrufe und Bildschirmfreigabe',
     EVENT_STORE: 'Event Store',
     EVENT_STORE_CAPTION: 'Jedes Event, durchsuchbar und wiederholbar',
+    UPSTREAM:
+      'Unterwegs gefunden und upstream gemeldet: Mit Server-Rendering laufen Routen-Preloads der Import Map zur Laufzeit voraus.',
   },
   REQ: {
     KICKER: 'Microservices',
@@ -228,10 +258,24 @@ export const WELCOME_DE: WelcomeText = {
       'Antworten werden Token für Token über Server-Sent Events gestreamt, während ein Python-Worker mit Gemini spricht. Anhänge gehen direkt in den Blob-Speicher.',
     MESH_BADGE: '4 im Anruf',
     MESSENGER_BODY:
-      'Gruppenanrufe sind ein Peer-to-Peer-WebRTC-Mesh. Ein Go-Service vermittelt die Signalisierung über WebSockets, Redis hält den Raum, und nach einem Neuladen tritt man mit einem Klick wieder bei.',
+      'Gruppenanrufe sind ein Peer-to-Peer-WebRTC-Mesh. Ein Go-Service vermittelt die Signalisierung über WebSockets, Redis hält den Raum, und nach einem Neuladen tritt man mit einem Klick wieder bei. Messenger gibt es auch als iOS- und Android-App, siehe unten.',
     LOG_LIVE: 'Live',
     EVENTS_BODY:
-      'Jedes Event der Plattform landet hier, monatlich partitioniert und nach jedem Payload-Feld filterbar. Fehlgeschlagene Zustellungen lassen sich aus der Dead-Letter-Queue wiederholen.',
+      'Jedes Event der Plattform landet hier, monatlich partitioniert und nach jedem Payload-Feld filterbar. Aktivitätsdiagramme zeigen, was pro Dienst passiert ist, und führen in die Liste; fehlgeschlagene Zustellungen lassen sich aus der Dead-Letter-Queue wiederholen.',
+  },
+  MOBILE: {
+    KICKER: 'Eine Codebasis, drei Plattformen',
+    TITLE: 'Aus einer Kind-App wird eine Mobile-App.',
+    BODY: 'Jedes Micro-Frontend muss ohne die Shell laufen. Genau diese Regel macht Messenger zur iOS- und Android-App: Sein Standalone-Build ist schon eine vollständige App, also verpackt Capacitor genau diesen Build in eine native Hülle. Nichts wurde neu geschrieben, und es gibt keine zweite App.',
+    POINT_CODE: 'Eine Codebasis',
+    POINT_CODE_BODY:
+      'Chats, Anrufe und Anmeldung sind einmal geschrieben. Web, iPhone und Android-App führen denselben Code aus demselben Repository aus.',
+    POINT_STANDALONE: 'Eigenständig gebaut',
+    POINT_STANDALONE_BODY:
+      'Ein Remote, das nur in der Shell funktioniert, hätte eine eigene Mobile-App gebraucht. Weil jedes für sich läuft, ist die App ein Build, kein Projekt.',
+    POINT_NATIVE: 'Nativ, wo es zählt',
+    POINT_NATIVE_BODY:
+      'Das Konto-Sheet des Systems für Google, eine native Tab-Leiste und Seitenübergänge, Haptik, Tastatur und Safe Areas sowie Audio- und Videoanrufe mit dem Web.',
   },
   OBSERVE: {
     KICKER: 'Observability',

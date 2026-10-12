@@ -2,6 +2,7 @@ import type {
   WelcomeDurable,
   WelcomeEventStep,
   WelcomeNode,
+  WelcomePoint,
   WelcomeRoute,
   WelcomeService,
   WelcomeStackItem,
@@ -143,6 +144,25 @@ export const WELCOME_EVENT_STEPS: readonly WelcomeEventStep[] = [
   { textKey: 'WELCOME.EVENTS.STEP_5', code: 'correlation_id' },
 ];
 
+/** Why a remote that runs without the shell is already a mobile app. */
+export const WELCOME_MOBILE_POINTS: readonly WelcomePoint[] = [
+  {
+    icon: 'clone',
+    titleKey: 'WELCOME.MOBILE.POINT_CODE',
+    bodyKey: 'WELCOME.MOBILE.POINT_CODE_BODY',
+  },
+  {
+    icon: 'th-large',
+    titleKey: 'WELCOME.MOBILE.POINT_STANDALONE',
+    bodyKey: 'WELCOME.MOBILE.POINT_STANDALONE_BODY',
+  },
+  {
+    icon: 'mobile',
+    titleKey: 'WELCOME.MOBILE.POINT_NATIVE',
+    bodyKey: 'WELCOME.MOBILE.POINT_NATIVE_BODY',
+  },
+];
+
 /** Counts of what exists today (workspace map, 2026-10-06). */
 export const WELCOME_STATS: readonly WelcomeStat[] = [
   { value: 8, labelKey: 'WELCOME.OBSERVE.STAT_SERVICES' },
@@ -156,7 +176,12 @@ export const WELCOME_STACK: readonly WelcomeStackItem[] = [
   { name: 'Native Federation', groupKey: 'WELCOME.STACK.FRONTEND' },
   { name: 'Angular SSR', groupKey: 'WELCOME.STACK.FRONTEND' },
   { name: 'Tailwind CSS', groupKey: 'WELCOME.STACK.FRONTEND' },
+  { name: 'Angular CDK', groupKey: 'WELCOME.STACK.FRONTEND' },
+  { name: 'd3', groupKey: 'WELCOME.STACK.FRONTEND' },
   { name: 'Capacitor', groupKey: 'WELCOME.STACK.FRONTEND' },
+  { name: 'Ionic', groupKey: 'WELCOME.STACK.FRONTEND' },
+  { name: 'Vitest', groupKey: 'WELCOME.STACK.FRONTEND' },
+  { name: 'Playwright', groupKey: 'WELCOME.STACK.FRONTEND' },
   { name: 'Go', groupKey: 'WELCOME.STACK.BACKEND' },
   { name: 'Fastify', groupKey: 'WELCOME.STACK.BACKEND' },
   { name: 'FastAPI', groupKey: 'WELCOME.STACK.BACKEND' },
@@ -169,4 +194,6 @@ export const WELCOME_STACK: readonly WelcomeStackItem[] = [
   { name: 'Prometheus', groupKey: 'WELCOME.STACK.OPS' },
   { name: 'Loki', groupKey: 'WELCOME.STACK.OPS' },
   { name: 'Azure Pipelines', groupKey: 'WELCOME.STACK.OPS' },
+  { name: 'MegaLinter', groupKey: 'WELCOME.STACK.OPS' },
+  { name: 'PR-Agent', groupKey: 'WELCOME.STACK.OPS' },
 ];

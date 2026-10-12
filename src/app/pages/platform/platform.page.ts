@@ -19,6 +19,7 @@ import { PROFILE } from '../../data/cv';
 import { REPOS } from '../../data/platform';
 import { WelcomeEventsSceneComponent } from './welcome/scenes/events-scene.component';
 import { WelcomeFederationSceneComponent } from './welcome/scenes/federation-scene.component';
+import { WelcomeMobileSceneComponent } from './welcome/scenes/mobile-scene.component';
 import { WelcomeObservabilitySceneComponent } from './welcome/scenes/observability-scene.component';
 import { WelcomeProductsSceneComponent } from './welcome/scenes/products-scene.component';
 import { WelcomeRequestSceneComponent } from './welcome/scenes/request-scene.component';
@@ -39,6 +40,7 @@ import { WelcomeStackSceneComponent } from './welcome/scenes/stack-scene.compone
     WelcomeRequestSceneComponent,
     WelcomeEventsSceneComponent,
     WelcomeProductsSceneComponent,
+    WelcomeMobileSceneComponent,
     WelcomeObservabilitySceneComponent,
     WelcomeStackSceneComponent,
   ],
