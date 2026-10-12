@@ -45,3 +45,6 @@ Thumbs.db
 
 # Claude scratch output
 /.claude/tmp
+
+# Personal files, never published (the repo is public)
+/_local
