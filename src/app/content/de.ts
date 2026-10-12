@@ -134,7 +134,7 @@ export const DE: Content = {
         duration: '1 Jahr 3 Monate',
       },
       viessmann: {
-        title: 'Digital Manufacturing Platform',
+        title: 'FPT Software – Digital Manufacturing Platform',
         client: 'Viessmann',
         roles: ['Lead Frontend Developer'],
         overview:
@@ -169,7 +169,7 @@ export const DE: Content = {
         duration: '2 Jahre',
       },
       petronas: {
-        title: 'Enterprise-Energieprojekte',
+        title: 'FPT Software – Enterprise-Energieprojekte',
         client: 'Petronas',
         roles: ['Fullstack-Entwickler', 'Lead Frontend Developer'],
         overview:
@@ -237,6 +237,7 @@ export const DE: Content = {
       degree: 'Bachelor of Software Engineering',
       school: 'FPT University',
       place: 'Hanoi, Vietnam',
+      period: '2017 – 2021',
     },
     languages: ['Englisch: IELTS 7.5'],
   },

@@ -51,7 +51,7 @@ export interface Content {
     roleSummary: string[];
     skills: { name: string; items: string[] }[];
     roles: Record<RoleId, RoleText>;
-    education: { degree: string; school: string; place: string };
+    education: { degree: string; school: string; place: string; period: string };
     languages: string[];
   };
   platform: {

@@ -46,7 +46,7 @@ export const RESUME = {
     },
     viessmann: {
       title: 'Lead Frontend Developer',
-      company: 'Viessmann — Digital Manufacturing Platform',
+      company: 'FPT Software — client Viessmann (Digital Manufacturing Platform)',
       bullets: [
         'Led an Angular 21 Module Federation micro-frontend suite: a host owning authentication, routing and the remote manifest, with independently deployed, version-pinned remotes.',
         'Extracted the theme, design tokens and shared components into an Angular library on a private npm feed, consumed by every frontend.',
@@ -57,7 +57,7 @@ export const RESUME = {
     },
     petronas: {
       title: 'Fullstack Developer → Lead Frontend Developer',
-      company: 'Petronas — Enterprise Energy Projects',
+      company: 'FPT Software — client Petronas (Enterprise Energy Projects)',
       bullets: [
         'Progressed from fullstack to lead frontend across four enterprise platforms: ICT self-service, work-permit licensing, predictive financial modeling and marine safety analytics.',
         'Designed the frontend architecture and led Angular (12–14) development for several applications.',
@@ -87,7 +87,7 @@ export const RESUME = {
     description:
       'Personal microservices and micro-frontends platform, built solo: Angular 22 on Native Federation, Go, Node and Python services, NATS JetStream, WebRTC group calls.',
   },
-  education: 'Bachelor of Software Engineering — FPT University, Ha Noi, Viet Nam',
+  education: 'Bachelor of Software Engineering — FPT University, Ha Noi, Viet Nam (2017 – 2021)',
   languages: 'English (IELTS 7.5)',
   sections: {
     summary: 'Summary',

@@ -133,7 +133,9 @@
       <section class="panel panel--education glass" aria-labelledby="education-title">
         <h2 id="education-title" class="section-title">{{ ui().sections.education }}</h2>
         <p class="strong">{{ cv().education.degree }}</p>
-        <p class="muted">{{ cv().education.school }}, {{ cv().education.place }}</p>
+        <p class="muted">
+          {{ cv().education.school }}, {{ cv().education.place }} ({{ cv().education.period }})
+        </p>
       </section>
 
       <section class="panel panel--languages glass" aria-labelledby="languages-title">
